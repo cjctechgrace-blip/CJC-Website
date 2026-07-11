@@ -1,0 +1,8 @@
+node_modules/
+.env
+.env.*
+preview-server.log
+.replit-artifact/
+dist/
+.DS_Store
+Thumbs.db
