@@ -138,13 +138,13 @@ Sun: 11:00am</p></div><div class="c-footer_item"><p class="c-footer_item-title">
       title.textContent = data.title;
     }
     if (tag) {
-      tag.textContent = data.isLive ? "Live Now" : (data.source === "youtube-videos-fallback" ? "Latest Message" : "Latest Livestream");
+      tag.textContent = data.isLive ? "Live Now" : "Latest Livestream";
     }
     if (btn && data.watchUrl) {
       btn.href = data.watchUrl;
       btn.setAttribute("target", "_blank");
       btn.setAttribute("rel", "noopener");
-      btn.textContent = data.isLive ? "Watch Live" : (data.source === "youtube-videos-fallback" ? "Watch Sermon" : "Watch Livestream");
+      btn.textContent = data.isLive ? "Watch Live" : "Watch Livestream";
     }
 
   }

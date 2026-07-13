@@ -232,6 +232,8 @@ function isUnavailableYoutubeVideo(video = {}) {
     !isWatchUrl(video.watchUrl) ||
     video.watchUrl.includes("/shorts/") ||
     (video.privacyStatus && video.privacyStatus !== "public") ||
+    (video.liveBroadcastContent === "upcoming" && !video.isLive) ||
+    (!video.isLive && /\b(scheduled|upcoming|waiting room)\b/i.test(text)) ||
     /\b(private video|deleted video|video unavailable|this video is unavailable|members only)\b/i.test(text)
   );
 }
@@ -614,14 +616,12 @@ async function getYoutubeLive() {
       return data;
     }
 
-    const [latestVideo] = await getYoutubeVideos(1);
-    const data = buildLivestreamResponse({ ...latestVideo, isLive: false, source: "youtube-videos-fallback" }, "youtube-videos-fallback");
+    const data = buildLivestreamResponse(null, "youtube-livestream-unavailable");
     youtubeCache.live = { expires: now + YOUTUBE_CACHE_MS, data };
     return data;
   } catch (error) {
     if (youtubeCache.live.data) return youtubeCache.live.data;
-    const [latestVideo] = await getYoutubeVideos(1).catch(() => []);
-    return buildLivestreamResponse({ ...latestVideo, isLive: false, source: "youtube-videos-fallback" }, "youtube-videos-fallback");
+    return buildLivestreamResponse(null, "youtube-livestream-unavailable");
   }
 }
 
